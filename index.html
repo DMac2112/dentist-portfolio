@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="capybara">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,26 +11,60 @@
 <meta property="og:description" content="Dentist trained at UMP Poznań, postgraduate training year at Artdent in Kalisz.">
 <meta property="og:url" content="https://dmac2112.github.io/dentist-portfolio/">
 <meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#F4F6F7">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke='%232346A0' stroke-width='1.4'%3E%3Crect x='1' y='1' width='18' height='18'/%3E%3Crect x='6.5' y='6.5' width='7' height='7' fill='%232346A0'/%3E%3Cpath d='M1 1l5.5 5.5M19 1l-5.5 5.5M1 19l5.5-5.5M19 19l-5.5-5.5'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#D8C3A5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke='%237A4E2D' stroke-width='1.4'%3E%3Crect x='1' y='1' width='18' height='18'/%3E%3Crect x='6.5' y='6.5' width='7' height='7' fill='%237A4E2D'/%3E%3Cpath d='M1 1l5.5 5.5M19 1l-5.5 5.5M1 19l5.5-5.5M19 19l-5.5-5.5'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
 <style>
+/* ---------- colourways ---------- */
+:root,html[data-theme="capybara"]{
+  --paper:#D8C3A5;      /* belly fur */
+  --ink:#2E2118;        /* muzzle */
+  --muted:#5E4A3A;
+  --line:#85694C;
+  --chart:#7A4E2D;      /* chestnut back fur */
+  --chart-hi:#A7744A;
+  --plan:#4F6B3A;       /* river weed */
+  --plan-hi:#7A9459;
+  --plan-line:#6E7F55;
+  --tint:#E6D6BF;
+  --fill-ink:#3A2B20;
+  --btn:#6A4126;
+  --btn-ink:#F3E7D6;
+  --btn-hover:#58351F;
+  --bar-bg:rgba(216,195,165,.93);
+  --bar-edge:rgba(133,105,76,.45);
+  --frame:#C9B191;
+  --grain:.22;
+  color-scheme:light;
+}
+html[data-theme="autumn"]{
+  --paper:#1E2620;      /* pine forest at dusk */
+  --ink:#EFE3CB;        /* birch bark */
+  --muted:#B4A88F;
+  --line:#6B7A6E;
+  --chart:#C98D2A;      /* maple gold */
+  --chart-hi:#F0C25E;
+  --plan:#D2492F;       /* rowan berries */
+  --plan-hi:#EF7350;
+  --plan-line:#8E5446;
+  --tint:#2C372F;
+  --fill-ink:#E8DCC2;
+  --btn:#D9A23A;
+  --btn-ink:#1E2620;
+  --btn-hover:#E8B652;
+  --bar-bg:rgba(30,38,32,.93);
+  --bar-edge:rgba(107,122,110,.45);
+  --frame:#2A342C;
+  --grain:.2;
+  color-scheme:dark;
+}
 :root{
-  --paper:#F4F6F7;
-  --ink:#1B2430;
-  --muted:#56616D;
-  --line:#AEB9C4;
-  --chart:#2346A0;
-  --plan:#C4332B;
-  --plan-line:#B87D7F;
-  --tint:#E3E9F1;
   --t:14px;          /* tooth box */
   --g:2px;           /* gap between teeth */
   --mid:10px;        /* midline gap */
   --bar:60px;
-  color-scheme:light;
 }
 @media (max-width:359px){:root{--t:12px;--g:1px;--mid:8px}}
 @media (min-width:640px){:root{--t:22px;--g:3px;--mid:16px;--bar:84px}}
@@ -44,16 +78,23 @@ body{
   font-size:1.0625rem;line-height:1.6;
   font-variant-numeric:tabular-nums;
   -webkit-font-smoothing:antialiased;
+  transition:background-color .45s ease,color .45s ease;
+}
+/* film grain: one pre-rendered 128px tile, no filters or blend modes (cheap on phones) */
+body::before{
+  content:"";position:fixed;inset:0;z-index:20;pointer-events:none;opacity:var(--grain);
+  background:url("grain.png") repeat;background-size:128px 128px;
 }
 a{color:inherit}
-:focus-visible{outline:2px solid var(--chart);outline-offset:3px;border-radius:2px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
 
 /* ---------- sticky chart bar ---------- */
 .bar{
   position:sticky;top:0;z-index:10;height:var(--bar);
-  background:rgba(244,246,247,.94);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  border-bottom:1px solid rgba(174,185,196,.55);
+  background:var(--bar-bg);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--bar-edge);
+  transition:background-color .45s ease;
 }
 .bar-in{
   height:100%;max-width:76rem;margin:0 auto;padding:0 16px;
@@ -64,11 +105,11 @@ a{color:inherit}
 .chart{grid-column:2}
 .lang{
   grid-column:3;justify-self:end;
-  font:inherit;font-size:.875rem;font-weight:600;color:var(--chart);
+  font:inherit;font-size:.875rem;font-weight:600;color:var(--ink);
   background:none;border:1px solid var(--line);border-radius:3px;
   min-width:44px;min-height:32px;padding:0 8px;cursor:pointer;
 }
-.lang:hover{border-color:var(--chart)}
+.lang:hover{border-color:var(--ink)}
 @media (max-width:999px){.who .role{display:none}}
 @media (max-width:639px){
   .who{display:none}
@@ -98,11 +139,13 @@ a{color:inherit}
   .q.on:nth-child(n+3){box-shadow:inset 0 -2px 0 var(--ink)}
 }
 .tooth svg{width:var(--t);height:var(--t);display:block;overflow:visible}
-.s{fill:transparent;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke;transition:fill .14s linear,stroke .14s linear}
-.s.on{fill:var(--chart);stroke:var(--paper)}
+.s{fill:transparent;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke;transition:stroke .14s linear}
+.s.on{fill:url(#enamel);stroke:var(--paper)}
 .q[data-q="3"] .s{stroke:var(--plan-line)}
-.q[data-q="3"] .s.on{fill:var(--plan);stroke:var(--paper)}
+.q[data-q="3"] .s.on{fill:url(#enamel-plan);stroke:var(--paper)}
 .q:hover .s:not(.on){stroke:var(--ink)}
+.e1{stop-color:var(--chart-hi)} .e2{stop-color:var(--chart)}
+.p1{stop-color:var(--plan-hi)}  .p2{stop-color:var(--plan)}
 
 /* ---------- layout ---------- */
 main{max-width:76rem;margin:0 auto;padding:0 16px}
@@ -112,17 +155,37 @@ main{max-width:76rem;margin:0 auto;padding:0 16px}
 }
 @supports (height:100svh){.hero{min-height:calc(100svh - var(--bar))}}
 @media (min-width:860px){.hero{grid-template-columns:1fr 17rem;align-items:end;column-gap:4rem}}
-.title{font-size:1rem;color:var(--muted);margin-bottom:.75rem}
+.title{font-size:1rem;color:var(--muted);margin-bottom:.75rem;letter-spacing:.01em}
 .name{
   font-size:clamp(3.25rem,10.5vw,8.75rem);
-  font-weight:300;font-stretch:125%;line-height:.92;letter-spacing:-.015em;
+  font-weight:200;font-stretch:125%;line-height:.92;letter-spacing:-.02em;
   margin-bottom:2rem;
 }
 .lede{font-size:clamp(1.125rem,2vw,1.375rem);line-height:1.5;max-width:31em}
+
+.ways{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;margin-top:2.25rem;font-size:.875rem}
+.ways > span{color:var(--muted);margin-right:.25rem}
+.way{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font:inherit;color:var(--ink);background:none;cursor:pointer;
+  border:1px solid transparent;border-radius:3px;padding:.35rem .6rem .35rem .4rem;min-height:36px;
+}
+.way:hover{border-color:var(--line)}
+.way[aria-pressed="true"]{border-color:var(--ink);font-weight:600}
+.sw{width:18px;height:18px;border-radius:2px;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.sw-capybara{background:linear-gradient(135deg,#7A4E2D 0 50%,#D8C3A5 50% 100%)}
+.sw-autumn{background:linear-gradient(135deg,#C98D2A 0 50%,#1E2620 50% 100%)}
+
 .portrait{max-width:17rem}
-.frame{aspect-ratio:4/5;background:var(--tint);display:grid;place-items:center}
-.frame svg{width:44px;height:44px;opacity:.5}
-.portrait figcaption{font-size:.8125rem;color:var(--muted);margin-top:.5rem}
+.frame{
+  aspect-ratio:4/5;background:var(--tint);
+  display:grid;place-items:center;
+  outline:1px solid var(--line);outline-offset:7px;
+  transition:background-color .45s ease;
+}
+.frame svg{width:44px;height:44px;opacity:.55}
+.frame svg g{stroke:var(--chart)}
+.portrait figcaption{font-size:.8125rem;color:var(--muted);margin-top:1rem}
 
 .stop{
   display:grid;gap:1.25rem;
@@ -131,26 +194,29 @@ main{max-width:76rem;margin:0 auto;padding:0 16px}
 }
 @media (min-width:860px){.stop{grid-template-columns:minmax(0,1fr) minmax(0,34rem);column-gap:4rem;padding:18vh 0 10vh}}
 .place{
-  font-size:clamp(2.75rem,8vw,6.5rem);font-weight:400;font-stretch:118%;
-  line-height:.95;letter-spacing:-.01em;
+  font-size:clamp(2.75rem,8vw,6.5rem);font-weight:300;font-stretch:122%;
+  line-height:.95;letter-spacing:-.015em;
 }
+.range{display:block;font-size:.875rem;font-weight:500;font-stretch:75%;letter-spacing:.04em;color:var(--muted);margin-top:.9rem}
 .stop[data-q="3"] .place{color:var(--plan)}
+[data-theme="capybara"] .stop[data-q="3"] .place{color:#46602F}
 .where{font-size:1.125rem;font-weight:600;margin-bottom:.25rem}
 .when{color:var(--muted);margin-bottom:1.25rem}
 .body p{max-width:34em}
 .body p+p{margin-top:1rem}
 .fill{
-  background:var(--tint);padding:.05em .3em;border-radius:2px;color:#2C3644;
+  background:var(--tint);padding:.05em .3em;border-radius:2px;color:var(--fill-ink);
   -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
 
 .mail{
   display:inline-block;margin-top:1.75rem;
   font-size:1.125rem;font-weight:600;text-decoration:none;
-  color:var(--paper);background:var(--chart);
-  padding:.8rem 1.4rem;border-radius:3px;
+  color:var(--btn-ink);background:var(--btn);
+  padding:.85rem 1.5rem;border-radius:3px;
+  transition:background-color .2s ease;
 }
-.mail:hover{background:#1A3780}
+.mail:hover{background:var(--btn-hover)}
 .links{margin-top:1.25rem;display:flex;gap:1.5rem;flex-wrap:wrap}
 .links a{text-underline-offset:.2em;text-decoration-thickness:1px}
 
@@ -160,13 +226,24 @@ footer{
   display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
 }
 
+/* no colour fade while the saved colourway is applied on load */
+html:not(.ready) *,html:not(.ready) *::before{transition:none !important}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .s,.num{transition:none}
+  body,.bar,.frame,.s,.num,.mail{transition:none}
 }
 </style>
 </head>
 <body id="top">
+
+<!-- shared enamel gradients for charted surfaces (colours come from the active colourway) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="enamel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="e1"/><stop offset=".7" class="e2"/></linearGradient>
+    <linearGradient id="enamel-plan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="p1"/><stop offset=".7" class="p2"/></linearGradient>
+  </defs>
+</svg>
 
 <header class="bar">
   <div class="bar-in">
@@ -182,17 +259,22 @@ footer{
       <p class="title" data-i18n="title">Dentist (lek. dent.)</p>
       <h1 class="name">Imię<br>Nazwisko</h1>
       <p class="lede" data-i18n="lede">Dentistry at UMP in Poznań, a postgraduate training year at Artdent in Kalisz, and now looking for my first permanent post.</p>
+      <div class="ways" role="group" aria-labelledby="ways-label">
+        <span id="ways-label" data-i18n="ways">Colourway</span>
+        <button class="way" type="button" data-way="capybara" aria-pressed="true"><i class="sw sw-capybara" aria-hidden="true"></i><span data-i18n="capybara">Capybara</span></button>
+        <button class="way" type="button" data-way="autumn" aria-pressed="false"><i class="sw sw-autumn" aria-hidden="true"></i><span data-i18n="autumn">Golden autumn</span></button>
+      </div>
     </div>
     <figure class="portrait">
       <div class="frame" role="img" aria-label="Portrait placeholder" data-i18n-aria="portraitAlt">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke="#2346A0" stroke-width="1"><rect x=".5" y=".5" width="19" height="19"/><rect x="6" y="6" width="8" height="8"/><path d="M.5 .5L6 6M19.5 .5L14 6M.5 19.5L6 14M19.5 19.5L14 14"/></g></svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><g fill="none" stroke-width="1"><rect x=".5" y=".5" width="19" height="19"/><rect x="6" y="6" width="8" height="8"/><path d="M.5 .5L6 6M19.5 .5L14 6M.5 19.5L6 14M19.5 19.5L14 14"/></g></svg>
       </div>
       <figcaption data-i18n="portrait">Portrait goes here</figcaption>
     </figure>
   </section>
 
   <section class="stop" id="poznan" data-q="1" aria-labelledby="h-poznan">
-    <h2 class="place" id="h-poznan">Poznań</h2>
+    <h2 class="place" id="h-poznan">Poznań<span class="range" aria-hidden="true">18–11</span></h2>
     <div class="body">
       <p class="where" data-i18n="ump">Poznan University of Medical Sciences (UMP)</p>
       <p class="when" data-i18n="umpWhen"><span class="fill">2020 – 2025</span></p>
@@ -202,7 +284,7 @@ footer{
   </section>
 
   <section class="stop" id="kalisz" data-q="2" aria-labelledby="h-kalisz">
-    <h2 class="place" id="h-kalisz">Kalisz</h2>
+    <h2 class="place" id="h-kalisz">Kalisz<span class="range" aria-hidden="true">21–28</span></h2>
     <div class="body">
       <p class="where">Artdent</p>
       <p class="when" data-i18n="artWhen">Postgraduate training year (staż), <span class="fill">Oct 2025 – Sep 2026</span></p>
@@ -212,17 +294,17 @@ footer{
   </section>
 
   <section class="stop" id="next" data-q="3" aria-labelledby="h-next">
-    <h2 class="place" id="h-next" data-i18n="next">Next</h2>
+    <h2 class="place" id="h-next"><span data-i18n="next">Next</span><span class="range" aria-hidden="true">38–31</span></h2>
     <div class="body">
       <p class="where" data-i18n="nextWhere">Planned</p>
       <p class="when" data-i18n="nextWhen">From <span class="fill">Month Year</span></p>
       <p data-i18n="nextBody"><span class="fill">What you’re looking for, e.g. an associate post in general dentistry in Poznań or Kalisz, and the areas you want to grow in.</span></p>
-      <p data-i18n="nextNote">On a dental chart, red marks treatment that’s still planned. This part stays red for now.</p>
+      <p id="note">On a dental chart, planned treatment gets a colour of its own. Here it’s river-weed green, for now.</p>
     </div>
   </section>
 
   <section class="stop" id="contact" data-q="4" aria-labelledby="h-contact">
-    <h2 class="place" id="h-contact" data-i18n="contact">Get in touch</h2>
+    <h2 class="place" id="h-contact"><span data-i18n="contact">Get in touch</span><span class="range" aria-hidden="true">41–48</span></h2>
     <div class="body">
       <p data-i18n="contactBody">Based in <span class="fill">city</span>, Poland. Email is the quickest way to reach me.</p>
       <!-- EDIT: replace with the real email address -->
@@ -247,6 +329,7 @@ footer{
       nav:"Sections, charted as you scroll",
       title:"Dentist (lek. dent.)",
       lede:"Dentistry at UMP in Poznań, a postgraduate training year at Artdent in Kalisz, and now looking for my first permanent post.",
+      ways:"Colourway", capybara:"Capybara", autumn:"Golden autumn",
       portrait:"Portrait goes here",
       portraitAlt:"Portrait placeholder",
       ump:"Poznan University of Medical Sciences (UMP)",
@@ -260,7 +343,10 @@ footer{
       nextWhere:"Planned",
       nextWhen:'From <span class="fill">Month Year</span>',
       nextBody:'<span class="fill">What you’re looking for, e.g. an associate post in general dentistry in Poznań or Kalisz, and the areas you want to grow in.</span>',
-      nextNote:"On a dental chart, red marks treatment that’s still planned. This part stays red for now.",
+      note:{
+        capybara:"On a dental chart, planned treatment gets a colour of its own. Here it’s river-weed green, for now.",
+        autumn:"On a dental chart, red marks treatment that’s still planned. This part stays rowan-berry red for now."
+      },
       contact:"Get in touch",
       contactBody:'Based in <span class="fill">city</span>, Poland. Email is the quickest way to reach me.',
       mail:"Email me",
@@ -272,6 +358,7 @@ footer{
       nav:"Sekcje, zaznaczane na diagramie zębowym podczas przewijania",
       title:"lek. dent.",
       lede:"Studia lekarsko-dentystyczne na UMP w Poznaniu, staż podyplomowy w klinice Artdent w Kaliszu, a teraz szukam pierwszej stałej pracy.",
+      ways:"Kolorystyka", capybara:"Kapibara", autumn:"Złota jesień",
       portrait:"Tu będzie zdjęcie",
       portraitAlt:"Miejsce na zdjęcie",
       ump:"Uniwersytet Medyczny im. Karola Marcinkowskiego w Poznaniu",
@@ -285,7 +372,10 @@ footer{
       nextWhere:"W planie",
       nextWhen:'Od <span class="fill">MM.RRRR</span>',
       nextBody:'<span class="fill">Czego szukasz, np. pracy w gabinecie stomatologii ogólnej w Poznaniu lub Kaliszu, i w jakich dziedzinach chcesz się rozwijać.</span>',
-      nextNote:"Na diagramie zębowym na czerwono zaznacza się to, co jest jeszcze do leczenia. Ta część na razie pozostaje czerwona.",
+      note:{
+        capybara:"Na diagramie zębowym leczenie zaplanowane ma własny kolor. Tutaj, na razie, to zieleń rzecznych trzcin.",
+        autumn:"Na diagramie zębowym na czerwono zaznacza się to, co jest jeszcze do leczenia. Ta część na razie pozostaje jarzębinowo czerwona."
+      },
       contact:"Kontakt",
       contactBody:'Mieszkam w <span class="fill">miejscowość w miejscowniku, np. Kaliszu</span>. Najszybciej odpowiadam na e-maile.',
       mail:"Napisz do mnie",
@@ -293,6 +383,10 @@ footer{
       lang:"EN", langLabel:"EN, switch to English"
     }
   };
+  var META = {capybara:"#D8C3A5", autumn:"#1E2620"};
+  var root = document.documentElement;
+  function store(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
+  function read(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
 
   /* ---- build the odontogram ---- */
   // FDI quadrants: 1 upper right, 2 upper left, 3 lower left, 4 lower right (patient's view)
@@ -372,25 +466,42 @@ footer{
   window.addEventListener("load", onScroll);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(onScroll);
 
+  /* ---- colourway ---- */
+  var ways = [].slice.call(document.querySelectorAll(".way"));
+  var note = document.getElementById("note");
+  function setTheme(t){
+    root.setAttribute("data-theme", t);
+    ways.forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-way") === t ? "true" : "false"); });
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", META[t]);
+    note.textContent = T[root.lang === "pl" ? "pl" : "en"].note[t];
+    store("theme", t);
+  }
+  ways.forEach(function(b){ b.addEventListener("click", function(){ setTheme(b.getAttribute("data-way")); }); });
+
   /* ---- language ---- */
   var btn = document.getElementById("lang");
   function setLang(l){
     var d = T[l];
-    document.documentElement.lang = l;
+    root.lang = l;
     [].forEach.call(document.querySelectorAll("[data-i18n]"), function(el){ el.innerHTML = d[el.getAttribute("data-i18n")]; });
     [].forEach.call(document.querySelectorAll("[data-i18n-aria]"), function(el){ el.setAttribute("aria-label", d[el.getAttribute("data-i18n-aria")]); });
     var labels = {1:"Poznań", 2:"Kalisz", 3:d.next, 4:d.contact};
     [1,2,3,4].forEach(function(q){ groups[q].setAttribute("aria-label", labels[q]); });
+    note.textContent = d.note[root.getAttribute("data-theme")] || d.note.capybara;
     btn.textContent = d.lang;
     btn.setAttribute("aria-label", d.langLabel);
-    try { localStorage.setItem("lang", l); } catch (e) {}
+    store("lang", l);
   }
-  var start = "en";
-  try { start = localStorage.getItem("lang") || ((navigator.language || "").slice(0,2) === "pl" ? "pl" : "en"); } catch (e) {}
-  setLang(T[start] ? start : "en");
-  btn.addEventListener("click", function(){ setLang(document.documentElement.lang === "en" ? "pl" : "en"); });
+  btn.addEventListener("click", function(){ setLang(root.lang === "en" ? "pl" : "en"); });
+
+  var qs = (location.search.match(/[?&]theme=(capybara|autumn)/) || [])[1];
+  var startTheme = qs || read("theme") || "capybara";
+  var startLang = read("lang") || ((navigator.language || "").slice(0,2) === "pl" ? "pl" : "en");
+  setLang(T[startLang] ? startLang : "en");
+  setTheme(META[startTheme] ? startTheme : "capybara");
 
   update();
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ root.classList.add("ready"); }); });
 })();
 </script>
 </body>
